@@ -1,9 +1,9 @@
-
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import 'package:todo_app1/model/data_model.dart';
 import 'package:todo_app1/view/edit_screen.dart';
 
+// ignore: must_be_immutable
 class ScreenView extends StatelessWidget {
   TodoModel data;
   int index;
@@ -27,9 +27,14 @@ class ScreenView extends StatelessWidget {
           title: const Text('Edit Screen'),
           backgroundColor: Colors.black,
           actions: [
-            IconButton(onPressed: (){
-              Navigator.of(context).push(MaterialPageRoute(builder: (context)=>ScreenEdit(data: data, index: index,)));
-            }, icon: const Icon(Icons.edit,color: Colors.white,))
+            IconButton(
+                onPressed: () {
+                  Get.to(ScreenEdit(data: data, index: index));
+                },
+                icon: const Icon(
+                  Icons.edit,
+                  color: Colors.white,
+                ))
           ],
         ),
         body: Column(
@@ -38,15 +43,19 @@ class ScreenView extends StatelessWidget {
               readOnly: true,
               controller: _title,
               decoration: const InputDecoration(
-                  enabled: false, border: OutlineInputBorder()),
+                  enabled: false,
+                   border: OutlineInputBorder()),
             ),
-            const SizedBox(height: 10, ),
+            const SizedBox(
+              height: 10,
+            ),
             TextFormField(
               maxLines: 5,
               enabled: false,
               readOnly: true,
               controller: _description,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
+              decoration: const InputDecoration(
+                border: OutlineInputBorder()),
             )
           ],
         ),

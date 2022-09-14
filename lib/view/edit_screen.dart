@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:todo_app1/controller/db_functions.dart';
 import 'package:todo_app1/model/data_model.dart';
 import 'package:todo_app1/view/home.dart';
 
 // ignore: must_be_immutable
 class ScreenEdit extends StatelessWidget {
-  TodoModel data;
-  int index;
-  ScreenEdit({Key? key, required this.data, required this.index})
-      : super(key: key);
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  TodoModel? data;
+  int? index;
+  ScreenEdit({Key? key, this.data, this.index}) : super(key: key);
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final TodoController myController = Get.put(TodoController());
 
   @override
   Widget build(BuildContext context) {
-    _titleController.text = data.title.toString();
-    _descriptionController.text = data.discription.toString();
+    titleController.text = data!.title.toString();
+    descriptionController.text = data!.discription.toString();
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -27,22 +28,25 @@ class ScreenEdit extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
-              controller: _titleController,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
+              controller: titleController,
+              decoration: const InputDecoration(
+                hintText: 'Title',
+                border: OutlineInputBorder()),
             ),
             const SizedBox(
               height: 5,
             ),
             TextFormField(
               maxLines: 5,
-              controller: _descriptionController,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
+              controller: descriptionController,
+              decoration: const InputDecoration(
+                hintText: 'Description',
+                border: OutlineInputBorder()),
             ),
             ElevatedButton(
                 onPressed: () {
-               updation(index);
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (context) => const ScreenHome()));
+                  updation(index);
+                  Get.off(ScreenHome());
                 },
                 child: const Text('Save'))
           ],
@@ -50,11 +54,11 @@ class ScreenEdit extends StatelessWidget {
       ),
     );
   }
-  updation(index){
-    final title=_titleController.text.trim();
-    final description = _descriptionController.text.trim();
+
+  updation(index) {
+    final title = titleController.text.trim();
+    final description = descriptionController.text.trim();
     final datas = TodoModel(title: title, discription: description);
-    upDate(index, datas);
+    myController.upDate(index, datas);
   }
 }
- 

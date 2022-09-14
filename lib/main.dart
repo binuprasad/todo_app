@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:todo_app1/model/data_model.dart';
+
 import 'package:todo_app1/view/home.dart';
 
+import 'model/data_model.dart';
+
 Future<void> main() async {
-  Hive.initFlutter();
+  WidgetsFlutterBinding.ensureInitialized();
+await Hive.initFlutter();
   if (!Hive.isAdapterRegistered(TodoModelAdapter().typeId)) {
     Hive.registerAdapter(TodoModelAdapter());
   }
-
   runApp(const MyApp());
 }
 
@@ -21,12 +23,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      // initialBinding: HomeBindings(),
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const ScreenHome(),
+      home: ScreenHome(),
     );
   }
 }

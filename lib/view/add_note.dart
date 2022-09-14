@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:todo_app1/controller/db_functions.dart';
 import 'package:todo_app1/model/data_model.dart';
 import 'package:todo_app1/view/home.dart';
@@ -6,8 +7,9 @@ import 'package:todo_app1/view/home.dart';
 class AddNote extends StatelessWidget {
   AddNote({Key? key}) : super(key: key);
 
-  final _titleController = TextEditingController();
-  final _descriptionController = TextEditingController();
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final TodoController myController = Get.put(TodoController());
 
   @override
   Widget build(BuildContext context) {
@@ -16,39 +18,37 @@ class AddNote extends StatelessWidget {
         centerTitle: true,
         backgroundColor: Colors.black,
         title: const Text('Add Note'),
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: const Icon(
-                Icons.save,
-                color: Colors.white,
-              ))
-        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
             TextFormField(
-              controller: _titleController,
+              
+              controller: titleController,
               maxLines: 1,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
+              decoration: const InputDecoration(
+                hintText: 'Title',
+                border: OutlineInputBorder()),
             ),
             const SizedBox(
               height: 10,
             ),
             TextFormField(
-              controller: _descriptionController,
+              controller: descriptionController,
               maxLength: 100,
               maxLines: 5,
-              decoration: const InputDecoration(border: OutlineInputBorder()),
+              decoration: const InputDecoration(
+                hintText: 'Description',
+                border: OutlineInputBorder()),
             ),
             ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black),
                 onPressed: () {
                   addTodoList();
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const ScreenHome()));
+                  Get.to(ScreenHome());
+                 
                 },
                 child: const Text('save'))
           ],
@@ -58,13 +58,13 @@ class AddNote extends StatelessWidget {
   }
 
   Future<void> addTodoList() async {
-    final title = _titleController.text.trim();
-    final description = _descriptionController.text.trim();
+    final title = titleController.text.trim();
+    final description = descriptionController.text.trim();
     if (title.isEmpty || description.isEmpty) {
       return;
     }
     final todomodel = TodoModel(title: title, discription: description);
 
-    addNote(todomodel);
+    myController.addNote(todomodel);
   }
 }
