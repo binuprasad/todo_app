@@ -1,11 +1,14 @@
 import 'dart:developer';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:todo_app1/model/data_model.dart';
 
 class TodoController extends GetxController {
   List<TodoModel> todoList = [];
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   @override
   void onInit() {
@@ -49,5 +52,16 @@ class TodoController extends GetxController {
     tudoDB.putAt(id, value);
     getAllNotes();
     update();
+  }
+
+   Future<void> addTodoList() async {
+    final title = titleController.text.trim();
+    final description = descriptionController.text.trim();
+    if (title.isEmpty || description.isEmpty) {
+      return;
+    }
+    final todomodel = TodoModel(title: title, discription: description);
+
+    addNote(todomodel);
   }
 }

@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:todo_app1/controller/db_functions.dart';
-import 'package:todo_app1/model/data_model.dart';
 import 'package:todo_app1/view/home.dart';
 
 class AddNote extends StatelessWidget {
   AddNote({Key? key}) : super(key: key);
 
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
+  
   final TodoController myController = Get.put(TodoController());
 
   @override
@@ -25,7 +23,7 @@ class AddNote extends StatelessWidget {
           children: [
             TextFormField(
               
-              controller: titleController,
+              controller:myController. titleController,
               maxLines: 1,
               decoration: const InputDecoration(
                 hintText: 'Title',
@@ -35,7 +33,7 @@ class AddNote extends StatelessWidget {
               height: 10,
             ),
             TextFormField(
-              controller: descriptionController,
+              controller:myController. descriptionController,
               maxLength: 100,
               maxLines: 5,
               decoration: const InputDecoration(
@@ -46,7 +44,7 @@ class AddNote extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.black),
                 onPressed: () {
-                  addTodoList();
+                myController.  addTodoList();
                   Get.to(ScreenHome());
                  
                 },
@@ -57,14 +55,5 @@ class AddNote extends StatelessWidget {
     );
   }
 
-  Future<void> addTodoList() async {
-    final title = titleController.text.trim();
-    final description = descriptionController.text.trim();
-    if (title.isEmpty || description.isEmpty) {
-      return;
-    }
-    final todomodel = TodoModel(title: title, discription: description);
-
-    myController.addNote(todomodel);
-  }
+ 
 }

@@ -65,6 +65,8 @@ class ScreenHome extends StatelessWidget {
         floatingActionButton: FloatingActionButton.extended(
             backgroundColor: Colors.black,
             onPressed: () {
+              myController.titleController.clear();
+              myController.descriptionController.clear();
               Get.to(AddNote());
             },
             label: const Text('AddNote')));
